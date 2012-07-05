@@ -9,14 +9,19 @@
 ; 2012
 ;-------------------------------------------------------------------------------
 
+(setq kxx1 "D:\\parametryk\\sz\\LSP\\") ;LSP
+(setq kxx2 "D:\\parametryk\\sz\\Bloki\\") ;Bloki
+(setq kxx3 "D:\\parametryk\\sz\\DWG\\") ;DWG
+(setq kxx4 "D:\\parametryk\\sz\\Dane\\") ;Dane
+
 (vl-load-com)
 (command "_osnap" "_none")			; wylacz przyciaganie
-(setq mypath "D:\\parametryk\\sz\\")
+(command "_.erase" "_all" "")
 
-(load (strcat mypath "getexcel.lsp"))
+(load (strcat kxx1 "getexcel.lsp"))
 									; narzedzia do pracy z arkuszem Excel
 
-(GetExcel (strcat mypath "values.xls") "Arkusz1" "J14")
+(GetExcel (strcat kxx4 "bamtz11.xls") "Arkusz1" "J14")
 
 (setq wariant (getint "Podaj numer szeregu [-4,4]: "))
 									; h1, h2, h3, h4, w1, w2, w3, fazaM, fazaD
@@ -139,15 +144,15 @@
 (command "_DIM" "_HOR" pC4 pA6 (list (car pB4) (+ (cadr pB4) 5)) (strcat (rtos (nth 9 dane) 2 1) "x45%%d") "_EXIT")
 
 ; bloki
-(command "_insert" (strcat mypath "przekr.dwg") (list (car pSrodKol) (+ (cadr pSrodKol) (/ (nth 1 dane) 4) 15)) 0.7 0.7 "")
-(command "_insert" (strcat mypath "przekr.dwg") (list (car pSrodKol) (- (cadr pSrodKol) 10)) 0.7 0.7 "")
-(command "_insert" (strcat mypath "blok_tol_wym005.dwg") (list (+ (car pA6) 50) (cadr pA3)) 1.0 1.0 "")
-(command "_insert" (strcat mypath "bazaA.dwg") (list (+ (car pA6) 17) (cadr pC3)) 1.0 1.0 "")
-(command "_insert" (strcat mypath "chrop25.dwg") (list (+ (car pA4) 7) (cadr pA4)) 1.0 1.0 "")
-(command "_insert" (strcat mypath "chrop25.dwg") (list (+ (car pA3) 40) (cadr pA3)) 1.0 1.0 "")
-(command "_insert" (strcat mypath "chrop25.dwg") "_R" "90" (list (car pB3) (- (cadr pB3) 20)) 1.0 1.0)
-(command "_insert" (strcat mypath "chrop25.dwg") "_R" "270" (list (car pA3) (+ (cadr pA3) 20)) 1.0 1.0)
-(command "_insert" (strcat mypath "chrop.dwg") (list (- (car pR4) 10) (- (cadr pR4) 10)) 1.0 1.0 "")
+(command "_insert" (strcat kxx2 "przekr.dwg") (list (car pSrodKol) (+ (cadr pSrodKol) (/ (nth 1 dane) 4) 15)) 0.7 0.7 "")
+(command "_insert" (strcat kxx2 "przekr.dwg") (list (car pSrodKol) (- (cadr pSrodKol) 10)) 0.7 0.7 "")
+(command "_insert" (strcat kxx2 "blok_tol_wym005.dwg") (list (+ (car pA6) 50) (cadr pA3)) 1.0 1.0 "")
+(command "_insert" (strcat kxx2 "bazaA.dwg") (list (+ (car pA6) 17) (cadr pC3)) 1.0 1.0 "")
+(command "_insert" (strcat kxx2 "chrop25.dwg") (list (+ (car pA4) 7) (cadr pA4)) 1.0 1.0 "")
+(command "_insert" (strcat kxx2 "chrop25.dwg") (list (+ (car pA3) 40) (cadr pA3)) 1.0 1.0 "")
+(command "_insert" (strcat kxx2 "chrop25.dwg") "_R" "90" (list (car pB3) (- (cadr pB3) 20)) 1.0 1.0)
+(command "_insert" (strcat kxx2 "chrop25.dwg") "_R" "270" (list (car pA3) (+ (cadr pA3) 20)) 1.0 1.0)
+(command "_insert" (strcat kxx2 "chrop.dwg") (list (- (car pR4) 10) (- (cadr pR4) 10)) 1.0 1.0 "")
 
 ; tekst
 (command "_text" (list (car pSrodKol) (+ (cadr pPoczRys) 20)) "2.5" "" "Uwagi:" "_text" "" "1. Galwanizowaæ antykorozyjnie, gruboœæ warstwy min. 0.02mm" "_text" "" "2. Wymiary tolerowane sprawdziæ po galwanizacji." "_text" "" "3. Ostre krawêdzie stêpiæ.")
@@ -156,3 +161,6 @@
 
 ; zoom all
 (command "_zoom" "_e")
+
+; save as
+(command "_save" (strcat kxx3 "ba_mtz_11_wariant" (rtos wariant)))
